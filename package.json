@@ -1,0 +1,22 @@
+{
+  "name": "moviedbbot",
+  "version": "1.0.0",
+  "description": "MovieDB consultation bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "moviedb",
+    "movies",
+    "database"
+  ],
+  "author": "Lorenzo Breda <lorenzo@lbreda.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-emoji": "^1.10.0",
+    "node-themoviedb": "^0.2.8",
+    "telegraf": "^4.3.0"
+  }
+}
