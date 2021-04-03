@@ -68,7 +68,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
       result += `*Story by*: ${details.credits.crew.filter(p => p.department === 'Writing').map(p => getPersonLink(p))}\n`
     }
 
-    result += `\n*Other sites:* [Letterboxd](http://letterboxd.com/tmdb/{${item.id})`
+    result += `\n*Other sites:* [Letterboxd](http://letterboxd.com/tmdb/${item.id})`
     if (details.imdb_id) {
       result += `, [IMDb](https://www.imdb.com/title/${details.imdb_id})`
     }
