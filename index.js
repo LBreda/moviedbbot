@@ -49,7 +49,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
   }
 
   if (item.media_type === 'movie') {
-    let details = (await mdb.movie.getDetails({ pathParameters: { movie_id: item.id } })).data
+    let details = (await mdb.movie.getDetails({ pathParameters: { movie_id: item.id }, query: { append_to_response: "credits" }})).data
 
     let result = getItemImageLink(item)
     result += `*${item.title}* ${getProductionFlags(details)}\n\n`
@@ -60,15 +60,18 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
     result += "\n"
     if (details.runtime) {
-      result += `*Runtime*: ${details.runtime}mins`
+      result += `*Runtime*: ${details.runtime}mins\n`
     }
 
     if (details.credits && details.credits.crew) {
-      result += `*Directed by*: ${details.credits.crew.filter(p => p.department === 'Directing').map(p => getPersonLink(p))}\n`
-      result += `*Story by*: ${details.credits.crew.filter(p => p.department === 'Writing').map(p => getPersonLink(p))}\n`
+      result += `*Directed by*: ${details.credits.crew.filter(p => p.department === 'Directing').map(p => getPersonLink(p)).join(', ')}\n`
+      result += `*Story by*: ${details.credits.crew.filter(p => p.department === 'Writing').map(p => getPersonLink(p)).join(', ')}\n`
+      result += "\n"
+      result += `*Cast*: ${details.credits.cast.filter(p => p.order < 6).map(p => getPersonLink(p)).join(', ')}\n`
+      result += "\n"
     }
 
-    result += `\n*Other sites:* [Letterboxd](http://letterboxd.com/tmdb/${item.id})`
+    result += `*Other sites:* [Letterboxd](http://letterboxd.com/tmdb/${item.id})`
     if (details.imdb_id) {
       result += `, [IMDb](https://www.imdb.com/title/${details.imdb_id})`
     }
