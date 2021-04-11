@@ -64,7 +64,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
 
     if (details.credits && details.credits.crew) {
-      result += `*Directed by*: ${details.credits.crew.filter(p => p.department === 'Directing').map(p => getPersonLink(p)).join(', ')}\n`
+      result += `*Directed by*: ${details.credits.crew.filter(p => p.job === 'Director' || p.job === 'Co-Director' ).map(p => getPersonLink(p)).join(', ')}\n`
       result += `*Story by*: ${details.credits.crew.filter(p => p.department === 'Writing').map(p => getPersonLink(p)).join(', ')}\n`
       result += "\n"
       result += `*Cast*: ${details.credits.cast.filter(p => p.order < 6).map(p => getPersonLink(p)).join(', ')}\n`
