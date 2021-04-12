@@ -21,9 +21,9 @@ let getPersonLink = (person) => {
   return `[${person.name}](https://www.themoviedb.org/person/${person.id})`
 }
 
-// Gets link to a movie
+// Gets link to a movie/tv item
 let getMovieLink = (movie) => {
-  return `[${movie.name || movie.title}](https://www.themoviedb.org/movie/${movie.id})`
+  return `[${movie.name || movie.title}](https://www.themoviedb.org/${movie.media_type}/${movie.id})`
 }
 
 // Parses a TMDB multi research item to get a markdown description
