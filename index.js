@@ -64,10 +64,14 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
 
     if (details.credits && details.credits.crew) {
-      result += `*Directed by*: ${details.credits.crew.filter(p => p.job === 'Director' || p.job === 'Co-Director' ).map(p => getPersonLink(p)).join(', ')}\n`
-      result += `*Story by*: ${details.credits.crew.filter(p => p.department === 'Writing').map(p => getPersonLink(p)).join(', ')}\n`
+			let directors = [...new Set(details.credits.crew.filter(p => p.job === 'Director' || p.job === 'Co-Director' ))];
+			let writers = [...new Set(details.credits.crew.filter(p => p.department === 'Writing'))]
+			let cast = [...new Set(details.credits.cast.filter(p => p.order < 10))]
+			
+      result += `*Directed by*: ${directors.map(p => getPersonLink(p)).join(', ')}\n`
+      result += `*Story by*: ${writers.map(p => getPersonLink(p)).join(', ')}\n`
       result += "\n"
-      result += `*Cast*: ${details.credits.cast.filter(p => p.order < 6).map(p => getPersonLink(p)).join(', ')}\n`
+      result += `*Cast*: ${cast.map(p => getPersonLink(p)).join(', ')}\n`
       result += "\n"
     }
 
