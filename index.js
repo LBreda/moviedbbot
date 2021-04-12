@@ -21,6 +21,11 @@ let getPersonLink = (person) => {
   return `[${person.name}](https://www.themoviedb.org/person/${person.id})`
 }
 
+// Gets link to a movie
+let getMovieLink = (movie) => {
+  return `[${movie.name || movie.title}](https://www.themoviedb.org/movie/${movie.id})`
+}
+
 // Parses a TMDB multi research item to get a markdown description
 let tmdbMultiItemToMarkdown = async (item) => {
   if (item.media_type === 'tv') {
@@ -104,7 +109,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
       result += `Other sites: [IMDb](https://www.imdb.com/name/${details.imdb_id})`
     }
 
-    result += `\n*Known for:* ${item.known_for.map(el => el.name || el.title).join(', ')}`
+    result += `\n*Known for:* ${item.known_for.map(el => getMovieLink(el)).join(', ')}`
 
     return result
   }
