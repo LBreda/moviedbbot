@@ -55,7 +55,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
 
     result += "\n"
-    result += "*Vote average*: " + printRating(item.vote_average)
+    result += "*Vote average*: " + printRating(item.vote_average) + "\n"
     result += "\n"
 
     result += `\n${item.overview}`
@@ -89,7 +89,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
       result += `*Cast*: ${cast.map(p => getPersonLink(p)).join(', ')}\n`
       result += "\n"
       result += "\n"
-      result += `*Vote average*: printRating(item.vote_average)\n`
+      result += "*Vote average*: " + printRating(item.vote_average) + "\n"
       result += "\n"
     }
 
