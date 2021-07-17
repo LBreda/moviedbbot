@@ -45,7 +45,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
     result += "\n"
     if (details.created_by) {
-      result += `*Created by*: ${details.created_by.map(p => getPersonLink(p))}\n`
+      result += `*Created by*: ${details.created_by.map(p => getPersonLink(p)).join(', ')}\n`
     }
     if (details.number_of_seasons) {
       result += `*Seasons*: ${details.number_of_seasons}\n`
