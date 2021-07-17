@@ -18,7 +18,7 @@ let getProductionFlags = (item) => {
 
 // Prints a decimal vote as number of stars out of ten
 let printRating = (vote) => {
-  return new Array(10).fill(emoji.get('white_circle')).fill(emoji.get(vote < 5 ? "red_circle" : vote < 7 ? "yellow_circle" : "green_circle"), 0, Math.round(vote)).join("") + " (" + vote + ")";
+  return new emoji.get(vote < 5 ? "red_circle" : vote < 7 ? "yellow_circle" : "green_circle") + " " + vote;
 }
 
 // Gets link to a person
