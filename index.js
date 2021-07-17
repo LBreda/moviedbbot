@@ -55,7 +55,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
 
     result += "\n"
-    result += `*Vote average*: printRating(item.vote_average)\n`
+    result += "*Vote average*: " + printRating(item.vote_average)
     result += "\n"
 
     result += `\n${item.overview}`
