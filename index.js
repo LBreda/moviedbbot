@@ -16,9 +16,19 @@ let getProductionFlags = (item) => {
   return item.production_countries ? item.production_countries.map(c => emoji.get(`flag-${c.iso_3166_1.toLowerCase()}`)) : ''
 }
 
+// Prints a decimal vote as number of stars out of ten
+let printRating = (vote) => {
+  return new Array(10).fill(emoji.get('white_circle')).fill(emoji.get(vote < 5 ? "red_circle" : vote < 7 ? "yellow_circle" : "green_circle"), 0, Math.round(vote)).join("") + " (" + vote + ")";
+}
+
 // Gets link to a person
 let getPersonLink = (person) => {
   return `[${person.name}](https://www.themoviedb.org/person/${person.id})`
+}
+
+// Gets link to a movie/tv item
+let getMovieLink = (movie) => {
+  return `[${movie.name || movie.title}](https://www.themoviedb.org/${movie.media_type}/${movie.id})`
 }
 
 // Parses a TMDB multi research item to get a markdown description
@@ -35,7 +45,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
     result += "\n"
     if (details.created_by) {
-      result += `*Created by*: ${details.created_by.map(p => getPersonLink(p))}\n`
+      result += `*Created by*: ${details.created_by.map(p => getPersonLink(p)).join(', ')}\n`
     }
     if (details.number_of_seasons) {
       result += `*Seasons*: ${details.number_of_seasons}\n`
@@ -43,6 +53,10 @@ let tmdbMultiItemToMarkdown = async (item) => {
     if (details.number_of_episodes) {
       result += `*Episodes*: ${details.number_of_episodes}\n`
     }
+
+    result += "\n"
+    result += `*Vote average*: printRating(item.vote_average)\n`
+    result += "\n"
 
     result += `\n${item.overview}`
     return result
@@ -64,10 +78,17 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
 
     if (details.credits && details.credits.crew) {
-      result += `*Directed by*: ${details.credits.crew.filter(p => p.job === 'Director' || p.job === 'Co-Director' ).map(p => getPersonLink(p)).join(', ')}\n`
-      result += `*Story by*: ${details.credits.crew.filter(p => p.department === 'Writing').map(p => getPersonLink(p)).join(', ')}\n`
+			let directors = [...new Set(details.credits.crew.filter(p => p.job === 'Director' || p.job === 'Co-Director' ))];
+			let writers = [...new Set(details.credits.crew.filter(p => p.department === 'Writing'))]
+			let cast = [...new Set(details.credits.cast.filter(p => p.order < 10))]
+			
+      result += `*Directed by*: ${directors.map(p => getPersonLink(p)).join(', ')}\n`
+      result += `*Story by*: ${writers.map(p => getPersonLink(p)).join(', ')}\n`
       result += "\n"
-      result += `*Cast*: ${details.credits.cast.filter(p => p.order < 6).map(p => getPersonLink(p)).join(', ')}\n`
+      result += `*Cast*: ${cast.map(p => getPersonLink(p)).join(', ')}\n`
+      result += "\n"
+      result += "\n"
+      result += `*Vote average*: printRating(item.vote_average)\n`
       result += "\n"
     }
 
@@ -100,7 +121,7 @@ let tmdbMultiItemToMarkdown = async (item) => {
       result += `Other sites: [IMDb](https://www.imdb.com/name/${details.imdb_id})`
     }
 
-    result += `\n*Known for:* ${item.known_for.map(el => el.name || el.title).join(', ')}`
+    result += `\n*Known for:* ${item.known_for.map(el => getMovieLink(el)).join(', ')}`
 
     return result
   }
