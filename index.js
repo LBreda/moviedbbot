@@ -55,8 +55,11 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
 
     result += "\n"
-    result += "*Vote average*: " + printRating(item.vote_average) + "\n"
-    result += "\n"
+
+    if(item.vote_count) {
+      result += "*Vote average*: " + printRating(item.vote_average) + "\n"
+      result += "\n"
+    }
 
     result += `\n${item.overview}`
     return result
@@ -88,8 +91,11 @@ let tmdbMultiItemToMarkdown = async (item) => {
       result += "\n"
       result += `*Cast*: ${cast.map(p => getPersonLink(p)).join(', ')}\n`
       result += "\n"
-      result += "*Vote average*: " + printRating(item.vote_average) + "\n"
-      result += "\n"
+
+      if(item.vote_count) {
+        result += "*Vote average*: " + printRating(item.vote_average) + "\n"
+        result += "\n"
+      }
     }
 
     result += `*Other sites:* [Letterboxd](http://letterboxd.com/tmdb/${item.id})`
