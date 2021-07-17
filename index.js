@@ -16,6 +16,11 @@ let getProductionFlags = (item) => {
   return item.production_countries ? item.production_countries.map(c => emoji.get(`flag-${c.iso_3166_1.toLowerCase()}`)) : ''
 }
 
+// Prints a decimal vote as number of stars out of ten
+let printRating = (vote) => {
+  return new Array(10).fill(emoji.get('white_circle')).fill(emoji.get(vote < 5 ? "red_circle" : vote < 7 ? "yellow_circle" : "green_circle"), 0, Math.round(vote)).join("") + " (" + vote + ")";
+}
+
 // Gets link to a person
 let getPersonLink = (person) => {
   return `[${person.name}](https://www.themoviedb.org/person/${person.id})`
@@ -49,6 +54,10 @@ let tmdbMultiItemToMarkdown = async (item) => {
       result += `*Episodes*: ${details.number_of_episodes}\n`
     }
 
+    result += "\n"
+    result += `*Vote average*: printRating(item.vote_average)\n`
+    result += "\n"
+
     result += `\n${item.overview}`
     return result
   }
@@ -77,6 +86,9 @@ let tmdbMultiItemToMarkdown = async (item) => {
       result += `*Story by*: ${writers.map(p => getPersonLink(p)).join(', ')}\n`
       result += "\n"
       result += `*Cast*: ${cast.map(p => getPersonLink(p)).join(', ')}\n`
+      result += "\n"
+      result += "\n"
+      result += `*Vote average*: printRating(item.vote_average)\n`
       result += "\n"
     }
 
