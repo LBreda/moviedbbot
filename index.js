@@ -70,7 +70,8 @@ let tmdbMultiItemToMarkdown = async (item) => {
 
     result += `*Original title*: [${item.original_title || item.title}](https://www.themoviedb.org/movie/${item.id})`
     if (details.release_date) {
-      result += ` (${details.release_date.substr(0, 4)})`
+      let release_date = details.release_date.substr(0, 4);
+      result += ` (${release_date})`
     }
     result += "\n"
     if (details.runtime) {
