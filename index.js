@@ -31,6 +31,11 @@ let getMovieLink = (movie) => {
   return `[${movie.name || movie.title}](https://www.themoviedb.org/${movie.media_type}/${movie.id})`
 }
 
+// Get link to a genre item
+let getGenreLink = (genre, media_type) => {
+  return `[${genre.name}](https://www.themoviedb.org/genre/${genre.id}/${media_type})`
+}
+
 // Parses a TMDB multi research item to get a markdown description
 let tmdbMultiItemToMarkdown = async (item) => {
   if (item.media_type === 'tv') {
@@ -52,6 +57,9 @@ let tmdbMultiItemToMarkdown = async (item) => {
     }
     if (details.number_of_episodes) {
       result += `*Episodes*: ${details.number_of_episodes}\n`
+    }
+    if (details.genres) {
+      result += `*Genres*: ${details.genres.map((genre) => getGenreLink(genre, item.media_type)).join(', ')}\n`
     }
 
     result += "\n"
@@ -79,6 +87,9 @@ let tmdbMultiItemToMarkdown = async (item) => {
     result += "\n"
     if (details.runtime) {
       result += `*Runtime*: ${details.runtime}mins\n`
+    }
+    if (details.genres) {
+      result += `*Genres*: ${details.genres.map((genre) => getGenreLink(genre, item.media_type)).join(', ')}\n`
     }
 
     if (details.credits && details.credits.crew) {
