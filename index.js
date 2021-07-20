@@ -36,6 +36,16 @@ let getGenreLink = (genre, media_type) => {
   return `[${genre.name}](https://www.themoviedb.org/genre/${genre.id}/${media_type})`
 }
 
+// Get icon for a media type
+let getMediaTypeIcon = (media_type) => {
+  let icons = {
+    tv: 'tv',
+    movie: 'film_projector',
+    person: 'smiley'
+  }
+  return emoji.get(icons[media_type] || 'question')
+}
+
 // Parses a TMDB multi research item to get a markdown description
 let tmdbMultiItemToMarkdown = async (item) => {
   if (item.media_type === 'tv') {
@@ -151,7 +161,7 @@ let tmdbSearchResultsToQueryResponse = (results) => results.map(result => (async
   return {
     type: 'article',
     id: result.media_type + result.id,
-    title: `[${result.media_type}] ${result.name || result.title} ${title_date ? '(' + title_date.substr(0,4) + ')' : ''}`,
+    title: `${getMediaTypeIcon(result.media_type)} ${result.name || result.title} ${title_date ? '(' + title_date.substr(0,4) + ')' : ''}`,
     description: result.overview,
     thumb_url: `http://image.tmdb.org/t/p/w92${result.profile_path || result.poster_path}`,
     input_message_content: {
