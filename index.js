@@ -136,10 +136,11 @@ let tmdbMultiItemToMarkdown = async (item) => {
 // Parses TMDB data to get a Telegram inline query response
 let tmdbSearchResultsToQueryResponse = (results) => results.map(result => (async () => {
   let message_text = await tmdbMultiItemToMarkdown(result)
+  let title_date = result.release_date || result.first_air_date || undefined;
   return {
     type: 'article',
     id: result.media_type + result.id,
-    title: `[${result.media_type}] ${result.name || result.title}`,
+    title: `[${result.media_type}] ${result.name || result.title} ${title_date ? '(' + title_date.substr(0,4) + ')' : ''}`,
     description: result.overview,
     thumb_url: `http://image.tmdb.org/t/p/w92${result.profile_path || result.poster_path}`,
     input_message_content: {
